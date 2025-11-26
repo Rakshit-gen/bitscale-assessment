@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FilterSidebar from "@/components/FilterSidebar";
 import ResultsTable from "@/components/ResultsTable";
 import Header from "@/components/Header";
+import Toast from "@/components/Toast";
 import { FilterState, Person } from "@/types";
 import { mockPeople } from "@/data/mockData";
 
@@ -29,9 +30,10 @@ export default function FindPeopleModal({ isOpen, onClose }: FindPeopleModalProp
   const [savedSearches, setSavedSearches] = useState<string[]>([]);
   const [showSavedSearches, setShowSavedSearches] = useState(false);
   const [creditsUsed, setCreditsUsed] = useState(8000);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
   const totalCredits = 50000;
 
-  const handlePreview = () => {
+  const handlePreview = useCallback(() => {
     setIsLoading(true);
     setTimeout(() => {
       let results = [...mockPeople];
@@ -82,12 +84,14 @@ export default function FindPeopleModal({ isOpen, onClose }: FindPeopleModalProp
       setHasSearched(true);
       setCreditsUsed((prev) => Math.min(prev + results.length * 10, totalCredits));
       setIsLoading(false);
+      setToast({ message: `Found ${results.length} results!`, type: "success" });
     }, 1200);
-  };
+  }, [filters]);
 
   const handleSaveSearch = () => {
     const searchName = `Search ${savedSearches.length + 1} - ${new Date().toLocaleDateString()}`;
     setSavedSearches((prev) => [...prev, searchName]);
+    setToast({ message: "Search saved successfully!", type: "success" });
   };
 
   const handleClearFilters = () => {
@@ -102,7 +106,26 @@ export default function FindPeopleModal({ isOpen, onClose }: FindPeopleModalProp
     });
     setFilteredPeople([]);
     setHasSearched(false);
+    setToast({ message: "Filters cleared", type: "info" });
   };
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        handlePreview();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose, handlePreview]);
 
   useEffect(() => {
     if (isOpen) {
@@ -154,6 +177,14 @@ export default function FindPeopleModal({ isOpen, onClose }: FindPeopleModalProp
               totalCredits={totalCredits}
             />
           </div>
+          {toast && (
+            <Toast
+              message={toast.message}
+              type={toast.type}
+              isVisible={true}
+              onClose={() => setToast(null)}
+            />
+          )}
         </motion.div>
       </div>
     </AnimatePresence>

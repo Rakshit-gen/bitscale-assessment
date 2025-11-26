@@ -345,16 +345,19 @@ export default function DashboardContent({
             </thead>
             <tbody>
               {filteredGrids.map((grid) => (
-                <tr key={grid.id}>
+                <tr key={grid.id} className="grid-row">
                   <td>
                     <div className="grid-name-cell">
                       <input type="checkbox" className="row-checkbox" />
-                      <button className="expand-icon">
+                      <button className="expand-icon" title="Expand details">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <polyline points="6 9 12 15 18 9" />
                         </svg>
                       </button>
-                      <button className={`star-icon ${grid.starred ? "starred" : ""}`}>
+                      <button 
+                        className={`star-icon ${grid.starred ? "starred" : ""}`}
+                        title={grid.starred ? "Unstar" : "Star this grid"}
+                      >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill={grid.starred ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                         </svg>
@@ -366,7 +369,7 @@ export default function DashboardContent({
                   <td>{grid.editedBy}</td>
                   <td>{grid.lastEdited}</td>
                   <td>
-                    <button className="actions-button">
+                    <button className="actions-button" title="More options">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <circle cx="12" cy="12" r="1" />
                         <circle cx="12" cy="5" r="1" />
