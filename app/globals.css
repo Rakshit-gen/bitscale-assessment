@@ -1448,6 +1448,16 @@ body {
   margin-bottom: 40px;
 }
 
+.dashboard-actions .header-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-actions .header-action-btn svg {
+  flex-shrink: 0;
+}
+
 .header-action-btn {
   padding: 8px 16px;
   background: white;

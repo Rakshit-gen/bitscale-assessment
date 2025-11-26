@@ -209,13 +209,32 @@ export default function DashboardContent({
         </div>
         <div className="dashboard-actions">
           <button className="header-action-btn" onClick={onFindCompanies}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 21h18" />
+              <path d="M5 21V7l8-4v18" />
+              <path d="M19 21V11l-6-4" />
+              <path d="M9 9v0" />
+              <path d="M9 12v0" />
+              <path d="M9 15v0" />
+              <path d="M9 18v0" />
+            </svg>
             Find Companies
           </button>
           <button className="header-action-btn" onClick={onFindPeople}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
             Find People
           </button>
           <button className="header-action-btn primary" onClick={onNewGrid}>
-            + New Grid
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            New Grid
           </button>
         </div>
       </div>
